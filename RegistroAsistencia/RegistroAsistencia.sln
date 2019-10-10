@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistroAsistencia", "RegistroAsistencia.csproj", "{742A85AD-BD04-4AFD-8910-5AB79884C970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistroAsistenciaTests", "..\RegistroAsistenciaTests\RegistroAsistenciaTests.csproj", "{F7DE0FA5-FB63-44F8-86FD-A23DA976D35E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{742A85AD-BD04-4AFD-8910-5AB79884C970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742A85AD-BD04-4AFD-8910-5AB79884C970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742A85AD-BD04-4AFD-8910-5AB79884C970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742A85AD-BD04-4AFD-8910-5AB79884C970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7DE0FA5-FB63-44F8-86FD-A23DA976D35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DE0FA5-FB63-44F8-86FD-A23DA976D35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DE0FA5-FB63-44F8-86FD-A23DA976D35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DE0FA5-FB63-44F8-86FD-A23DA976D35E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9BCA5FB3-DCB4-468B-A6F5-33403A76220B}
+	EndGlobalSection
+EndGlobal
