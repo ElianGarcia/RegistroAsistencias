@@ -9,6 +9,7 @@ namespace RegistroAsistencia.UI.Registros
     public partial class rEstudiantes : Form
     {
         GenericaBLL<EstudiantesDetalle> generica;
+        rAsistencias asistencias = new rAsistencias();
         public rEstudiantes()
         {
             generica = new GenericaBLL<EstudiantesDetalle>();
@@ -33,8 +34,9 @@ namespace RegistroAsistencia.UI.Registros
             }
             else
             {
-                MessageBox.Show("Asignatura no encontrada");
+                MessageBox.Show("Estudiante no encontrado");
             }
+            asistencias.LlenarComboBox();
         }
 
         private void Nuevobutton_Click(object sender, EventArgs e)
@@ -74,6 +76,9 @@ namespace RegistroAsistencia.UI.Registros
             {
                 MessageBox.Show("NO SE PUDO GUARDAR", "NO GUARDADO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            
+            asistencias.LlenarComboBox();
+
         }
 
         private bool Validar()
@@ -128,6 +133,7 @@ namespace RegistroAsistencia.UI.Registros
             {
                 errorProvider.SetError(IDnumericUpDown, "No se puede eliminar un estudiante inexistente");
             }
+            asistencias.LlenarComboBox();
         }
 
         private void Limpiar()

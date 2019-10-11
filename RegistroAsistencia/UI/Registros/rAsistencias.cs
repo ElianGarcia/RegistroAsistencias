@@ -3,12 +3,6 @@ using RegistroAsistencia.DAL;
 using RegistroAsistencia.Entidades;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RegistroAsistencia.UI.Registros
@@ -16,10 +10,13 @@ namespace RegistroAsistencia.UI.Registros
     public partial class rAsistencias : Form
     {
         public List<EstudiantesDetalle> DetalleEstudiantes { get; set; }
+        public GenericaBLL<EstudiantesDetalle> generica;
+        private int Cantidad;
         public rAsistencias()
         {
             InitializeComponent();
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
+            this.generica = new GenericaBLL<EstudiantesDetalle>();
         }
 
         private void RegistrarEstudiantebutton_Click(object sender, EventArgs e)
@@ -78,6 +75,13 @@ namespace RegistroAsistencia.UI.Registros
             {
                 errorProvider.SetError(IDnumericUpDown, "EL CAMPO ID NO PUEDE ESTAR VACIO");
                 IDnumericUpDown.Focus();
+                realizado = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(CantidadtextBox.Text))
+            {
+                errorProvider.SetError(IDnumericUpDown, "EL CAMPO CANTIDAD NO PUEDE ESTAR VACIO");
+                CantidadtextBox.Focus();
                 realizado = false;
             }
 
@@ -143,8 +147,11 @@ namespace RegistroAsistencia.UI.Registros
             int.TryParse(IDnumericUpDown.Text, out id);
 
             Limpiar();
-
-            asistencia = AsistenciasBLL.Buscar(id);
+            if(id > 0)
+            {
+                asistencia = AsistenciasBLL.Buscar(id);
+            }
+            
 
             if (asistencia != null)
             {
@@ -170,10 +177,10 @@ namespace RegistroAsistencia.UI.Registros
         private void Limpiar()
         {
             IDnumericUpDown.Value = 0;
-            EstudiantecomboBox.SelectedIndex = 0;
-            AsignaturaComboBox.SelectedIndex = 0;
+            EstudiantecomboBox.SelectedIndex = -1;
+            AsignaturaComboBox.SelectedIndex = -1;
             AsistenciacheckBox.Checked = false;
-            CantidadtextBox.Text = string.Empty;
+            CantidadtextBox.Text = "0";
             FechadateTimePicker.Value = DateTime.Now;
 
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
@@ -182,26 +189,34 @@ namespace RegistroAsistencia.UI.Registros
 
         private void AgregarEstudiantebutton_Click(object sender, EventArgs e)
         {
+            
             if (dataGridView.DataSource != null)
             {
                 this.DetalleEstudiantes = (List<EstudiantesDetalle>)dataGridView.DataSource;
             }
 
+            EstudiantesDetalle ed = generica.Buscar(EstudiantecomboBox.SelectedIndex + 1);
 
             this.DetalleEstudiantes.Add(new EstudiantesDetalle(
-                estudianteID: 0,
-                nombre: EstudiantecomboBox.SelectedText
+                estudianteID: EstudiantecomboBox.SelectedIndex,
+                nombre: ed.Nombre,
+                presente: AsistenciacheckBox.Checked
                 )
             );
 
             CargarGrid();
-            EstudiantecomboBox.SelectedIndex = 0;
+            Cantidad += 1;
+            CantidadtextBox.Text = Cantidad.ToString();
+            EstudiantecomboBox.SelectedIndex = AsignaturaComboBox.SelectedIndex = -1;
         }
 
         private void CargarGrid()
         {
+            DataGridViewCheckBoxColumn columna = new DataGridViewCheckBoxColumn();
+            
             dataGridView.DataSource = null;
             dataGridView.DataSource = this.DetalleEstudiantes;
+            
         }
 
         private void RemoverFilabutton_Click(object sender, EventArgs e)
@@ -210,6 +225,8 @@ namespace RegistroAsistencia.UI.Registros
             {
                 DetalleEstudiantes.RemoveAt(dataGridView.CurrentRow.Index);
                 CargarGrid();
+                Cantidad -= 1;
+                CantidadtextBox.Text = Cantidad.ToString();
             }
         }
 

@@ -12,6 +12,7 @@ namespace RegistroAsistencia.Entidades
         [Key]
         public int EstudianteID { get; set; }
         public string Nombre { get; set; }
+        public bool Presente { get; set; }
 
         public EstudiantesDetalle()
         {
@@ -22,6 +23,11 @@ namespace RegistroAsistencia.Entidades
         {
             EstudianteID = estudianteID;
             Nombre = nombre ?? throw new ArgumentNullException(nameof(nombre));
+        }
+
+        public EstudiantesDetalle(int estudianteID, string nombre, bool presente) : this(estudianteID, nombre)
+        {
+            Presente = presente;
         }
     }
 }

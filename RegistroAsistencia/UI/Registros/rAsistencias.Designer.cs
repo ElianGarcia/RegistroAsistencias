@@ -204,6 +204,7 @@
             this.CantidadtextBox.Font = new System.Drawing.Font("Modern No. 20", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CantidadtextBox.Location = new System.Drawing.Point(79, 343);
             this.CantidadtextBox.Name = "CantidadtextBox";
+            this.CantidadtextBox.ReadOnly = true;
             this.CantidadtextBox.Size = new System.Drawing.Size(63, 24);
             this.CantidadtextBox.TabIndex = 12;
             // 
