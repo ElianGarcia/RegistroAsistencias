@@ -196,14 +196,16 @@ namespace RegistroAsistencia.UI.Registros
             }
 
             EstudiantesDetalle ed = generica.Buscar(EstudiantecomboBox.SelectedIndex + 1);
-
-            this.DetalleEstudiantes.Add(new EstudiantesDetalle(
-                estudianteID: EstudiantecomboBox.SelectedIndex,
-                nombre: ed.Nombre,
-                presente: AsistenciacheckBox.Checked
-                )
-            );
-
+            if(ed != null)
+            {
+                this.DetalleEstudiantes.Add(new EstudiantesDetalle(
+                    estudianteID: EstudiantecomboBox.SelectedIndex,
+                    nombre: ed.Nombre,
+                    presente: AsistenciacheckBox.Checked
+                    )
+                );
+            }
+            
             CargarGrid();
             Cantidad += 1;
             CantidadtextBox.Text = Cantidad.ToString();
@@ -232,12 +234,14 @@ namespace RegistroAsistencia.UI.Registros
 
         public void LlenarComboBox()
         {
+            EstudiantecomboBox.DataSource = null;
             GenericaBLL<EstudiantesDetalle> genericaBLL = new GenericaBLL<EstudiantesDetalle>();
             List<EstudiantesDetalle> lista = genericaBLL.GetList(p => true);
             EstudiantecomboBox.DataSource = lista;
             EstudiantecomboBox.DisplayMember = "Nombre";
             EstudiantecomboBox.ValueMember = "EstudianteID";
 
+            AsignaturaComboBox.DataSource = null;
             GenericaBLL<Asignaturas> genericaAsignaturasBLL = new GenericaBLL<Asignaturas>();
             List<Asignaturas> lista1 = new List<Asignaturas>();
             lista1 = genericaAsignaturasBLL.GetList(p => true);
