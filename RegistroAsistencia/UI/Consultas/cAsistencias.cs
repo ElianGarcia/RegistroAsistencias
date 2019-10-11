@@ -35,11 +35,7 @@ namespace RegistroAsistencia.UI.Consultas
                         int id = Convert.ToInt32(tbCriterio.Text);
                         listado = AsistenciasBLL.GetList(asistencia => asistencia.AsistenciaID == id);
                         break;
-
                     case 2:
-                        listado = AsistenciasBLL.GetList(asistencia => asistencia.EstudianteID == Convert.ToInt32(tbCriterio.Text));
-                        break;
-                    case 3:
                         listado = AsistenciasBLL.GetList(asistencia => asistencia.AsignaturaID == Convert.ToInt32(tbCriterio.Text));
                         break;
                 }

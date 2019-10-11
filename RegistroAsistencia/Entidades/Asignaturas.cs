@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace RegistroAsistencia.Entidades
 {
-    public class AsignaturasDetalle
+    public class Asignaturas
     {
         [Key]
         public int AsignaturaID { get; set; }
         public string Nombre { get; set; }
 
-        public AsignaturasDetalle()
+        public Asignaturas()
         {
         }
 
-        public AsignaturasDetalle(int asignaturaID, string nombre)
+        public Asignaturas(int asignaturaID, string nombre)
         {
             AsignaturaID = asignaturaID;
             Nombre = nombre ?? throw new ArgumentNullException(nameof(nombre));

@@ -60,7 +60,7 @@
     <Compile Include="BLL\GenericaBLL.cs" />
     <Compile Include="BLL\IRepository.cs" />
     <Compile Include="DAL\Contexto.cs" />
-    <Compile Include="Entidades\AsignaturasDetalle.cs" />
+    <Compile Include="Entidades\Asignaturas.cs" />
     <Compile Include="Entidades\Asistencias.cs" />
     <Compile Include="Entidades\EstudiantesDetalle.cs" />
     <Compile Include="MainForm.cs">

@@ -8,10 +8,10 @@ namespace RegistroAsistencia.UI.Registros
 {
     public partial class rAsignaturas : Form
     {
-        GenericaBLL<AsignaturasDetalle> generica;
+        GenericaBLL<Asignaturas> generica;
         public rAsignaturas()
         {
-            generica = new GenericaBLL<AsignaturasDetalle>();
+            generica = new GenericaBLL<Asignaturas>();
             InitializeComponent();
         }
 
@@ -22,7 +22,7 @@ namespace RegistroAsistencia.UI.Registros
 
         private void Guardarbutton_Click(object sender, EventArgs e)
         {
-            AsignaturasDetalle asignatura = new AsignaturasDetalle();
+            Asignaturas asignatura = new Asignaturas();
             bool realizado = false;
 
             if (!Validar())
@@ -56,14 +56,14 @@ namespace RegistroAsistencia.UI.Registros
 
         private bool Existe()
         {
-            AsignaturasDetalle asignaturas = generica.Buscar((int)IDnumericUpDown.Value);
+            Asignaturas asignaturas = generica.Buscar((int)IDnumericUpDown.Value);
 
             return (asignaturas != null);
         }
 
-        private AsignaturasDetalle LlenaClase()
+        private Asignaturas LlenaClase()
         {
-            AsignaturasDetalle asignatura = new AsignaturasDetalle();
+            Asignaturas asignatura = new Asignaturas();
             asignatura.AsignaturaID = Convert.ToInt32(IDnumericUpDown.Value);
             asignatura.Nombre = NombretextBox.Text;
 
@@ -93,7 +93,7 @@ namespace RegistroAsistencia.UI.Registros
             int.TryParse(IDnumericUpDown.Text, out id);
             Contexto db = new Contexto();
 
-            AsignaturasDetalle asignatura = new AsignaturasDetalle();
+            Asignaturas asignatura = new Asignaturas();
 
             Limpiar();
 
@@ -111,8 +111,8 @@ namespace RegistroAsistencia.UI.Registros
         private void Buscarbutton_Click(object sender, EventArgs e)
         {
             int id;
-            AsignaturasDetalle asignatura = new AsignaturasDetalle();
-            generica = new GenericaBLL<AsignaturasDetalle>();
+            Asignaturas asignatura = new Asignaturas();
+            generica = new GenericaBLL<Asignaturas>();
             int.TryParse(IDnumericUpDown.Text, out id);
 
             Limpiar();
@@ -135,7 +135,7 @@ namespace RegistroAsistencia.UI.Registros
             NombretextBox.Text = string.Empty;
         }
 
-        private void LlenaCampos(AsignaturasDetalle asignatura)
+        private void LlenaCampos(Asignaturas asignatura)
         {
             IDnumericUpDown.Value = asignatura.AsignaturaID;
             NombretextBox.Text = asignatura.Nombre;

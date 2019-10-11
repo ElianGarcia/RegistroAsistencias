@@ -16,11 +16,9 @@ namespace RegistroAsistencia.UI.Registros
     public partial class rAsistencias : Form
     {
         public List<EstudiantesDetalle> DetalleEstudiantes { get; set; }
-        public List<AsignaturasDetalle> DetalleAsignaturas { get; set; }
         public rAsistencias()
         {
             InitializeComponent();
-            this.DetalleAsignaturas = new List<AsignaturasDetalle>();
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
         }
 
@@ -83,7 +81,7 @@ namespace RegistroAsistencia.UI.Registros
                 realizado = false;
             }
 
-            if(this.DetalleEstudiantes.Count == 0)
+            if (this.DetalleEstudiantes.Count == 0)
             {
                 errorProvider.SetError(dataGridView, "Debe agregar algun estudiante");
                 EstudiantecomboBox.Focus();
@@ -97,7 +95,7 @@ namespace RegistroAsistencia.UI.Registros
         {
             Asistencias asistencia = new Asistencias();
             asistencia.AsistenciaID = Convert.ToInt32(IDnumericUpDown.Value);
-            asistencia.Asignatura = this.DetalleAsignaturas;
+            asistencia.AsignaturaID = AsignaturaComboBox.SelectedIndex;
             asistencia.Estudiante = this.DetalleEstudiantes;
             asistencia.Cantidad = Convert.ToInt32(CantidadtextBox.Text);
             asistencia.Fecha = FechadateTimePicker.Value;
@@ -119,12 +117,12 @@ namespace RegistroAsistencia.UI.Registros
 
             Asistencias asistencia = new Asistencias();
 
-            Limpiar();
 
             if (AsistenciasBLL.Eliminar(id))
             {
                 MessageBox.Show("Eliminada correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                Limpiar();
             }
             else
             {
@@ -163,10 +161,9 @@ namespace RegistroAsistencia.UI.Registros
             IDnumericUpDown.Value = asistencia.AsistenciaID;
             CantidadtextBox.Text = asistencia.Cantidad.ToString();
             FechadateTimePicker.Value = asistencia.Fecha;
-
+            AsignaturaComboBox.SelectedIndex = asistencia.AsignaturaID;
             this.DetalleEstudiantes = asistencia.Estudiante;
-            this.DetalleAsignaturas = asistencia.Asignatura;
-
+            
             CargarGrid();
         }
 
@@ -179,7 +176,6 @@ namespace RegistroAsistencia.UI.Registros
             CantidadtextBox.Text = string.Empty;
             FechadateTimePicker.Value = DateTime.Now;
 
-            this.DetalleAsignaturas = new List<AsignaturasDetalle>();
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
             CargarGrid();
         }
@@ -187,21 +183,17 @@ namespace RegistroAsistencia.UI.Registros
         private void AgregarEstudiantebutton_Click(object sender, EventArgs e)
         {
             if (dataGridView.DataSource != null)
+            {
                 this.DetalleEstudiantes = (List<EstudiantesDetalle>)dataGridView.DataSource;
-                this.DetalleAsignaturas = (List<AsignaturasDetalle>)dataGridView.DataSource;
+            }
+
 
             this.DetalleEstudiantes.Add(new EstudiantesDetalle(
                 estudianteID: 0,
-                nombre: EstudiantecomboBox.SelectedItem.ToString()
+                nombre: EstudiantecomboBox.SelectedText
                 )
             );
 
-            this.DetalleAsignaturas.Add(
-                new AsignaturasDetalle(
-                    asignaturaID: 0,
-                    nombre: AsignaturaComboBox.Text
-                    )
-                );
             CargarGrid();
             EstudiantecomboBox.SelectedIndex = 0;
         }
@@ -214,16 +206,32 @@ namespace RegistroAsistencia.UI.Registros
 
         private void RemoverFilabutton_Click(object sender, EventArgs e)
         {
-            if(dataGridView.Rows.Count > 0 && dataGridView.CurrentRow != null)
+            if (dataGridView.Rows.Count > 0 && dataGridView.CurrentRow != null)
             {
                 DetalleEstudiantes.RemoveAt(dataGridView.CurrentRow.Index);
                 CargarGrid();
             }
         }
 
+        public void LlenarComboBox()
+        {
+            GenericaBLL<EstudiantesDetalle> genericaBLL = new GenericaBLL<EstudiantesDetalle>();
+            List<EstudiantesDetalle> lista = genericaBLL.GetList(p => true);
+            EstudiantecomboBox.DataSource = lista;
+            EstudiantecomboBox.DisplayMember = "Nombre";
+            EstudiantecomboBox.ValueMember = "EstudianteID";
+
+            GenericaBLL<Asignaturas> genericaAsignaturasBLL = new GenericaBLL<Asignaturas>();
+            List<Asignaturas> lista1 = new List<Asignaturas>();
+            lista1 = genericaAsignaturasBLL.GetList(p => true);
+            AsignaturaComboBox.DataSource = lista1;
+            AsignaturaComboBox.DisplayMember = "Nombre";
+            AsignaturaComboBox.ValueMember = "AsignaturaID";
+        }
+
         private void RAsistencias_Load(object sender, EventArgs e)
         {
-            EstudiantecomboBox.Items = lista;
+            LlenarComboBox();
         }
     }
 }
