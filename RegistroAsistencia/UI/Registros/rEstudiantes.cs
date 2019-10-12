@@ -8,20 +8,19 @@ namespace RegistroAsistencia.UI.Registros
 {
     public partial class rEstudiantes : Form
     {
-        GenericaBLL<EstudiantesDetalle> generica;
-        rAsistencias asistencias = new rAsistencias();
+        GenericaBLL<Estudiantes> generica;
         public rEstudiantes()
         {
-            generica = new GenericaBLL<EstudiantesDetalle>();
+            generica = new GenericaBLL<Estudiantes>();
             InitializeComponent();
         }
 
         private void Buscarbutton_Click(object sender, EventArgs e)
         {
             int id;
-            EstudiantesDetalle estudiantes = new EstudiantesDetalle();
+            Estudiantes estudiantes = new Estudiantes();
 
-            generica = new GenericaBLL<EstudiantesDetalle>();
+            generica = new GenericaBLL<Estudiantes>();
             int.TryParse(IDnumericUpDown.Text, out id);
 
             Limpiar();
@@ -36,7 +35,6 @@ namespace RegistroAsistencia.UI.Registros
             {
                 MessageBox.Show("Estudiante no encontrado");
             }
-            asistencias.LlenarComboBox();
         }
 
         private void Nuevobutton_Click(object sender, EventArgs e)
@@ -46,7 +44,7 @@ namespace RegistroAsistencia.UI.Registros
 
         private void Guardarbutton_Click(object sender, EventArgs e)
         {
-            EstudiantesDetalle estudiantes = new EstudiantesDetalle();
+            Estudiantes estudiantes = new Estudiantes();
             bool realizado = false;
 
             if (!Validar())
@@ -76,9 +74,6 @@ namespace RegistroAsistencia.UI.Registros
             {
                 MessageBox.Show("NO SE PUDO GUARDAR", "NO GUARDADO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
-            asistencias.LlenarComboBox();
-
         }
 
         private bool Validar()
@@ -96,9 +91,9 @@ namespace RegistroAsistencia.UI.Registros
             return realizado;
         }
 
-        private EstudiantesDetalle LlenaClase()
+        private Estudiantes LlenaClase()
         {
-            EstudiantesDetalle estudiantes = new EstudiantesDetalle();
+            Estudiantes estudiantes = new Estudiantes();
             estudiantes.EstudianteID = Convert.ToInt32(IDnumericUpDown.Value);
             estudiantes.Nombre = NombretextBox.Text;
 
@@ -107,7 +102,7 @@ namespace RegistroAsistencia.UI.Registros
 
         private bool Existe()
         {
-            EstudiantesDetalle estudiantes = generica.Buscar((int)IDnumericUpDown.Value);
+            Estudiantes estudiantes = generica.Buscar((int)IDnumericUpDown.Value);
 
             return (estudiantes != null);
         }
@@ -120,8 +115,6 @@ namespace RegistroAsistencia.UI.Registros
             int.TryParse(IDnumericUpDown.Text, out id);
             Contexto db = new Contexto();
 
-            EstudiantesDetalle estudiantes = new EstudiantesDetalle();
-
             Limpiar();
 
             if (generica.Eliminar(id))
@@ -133,7 +126,6 @@ namespace RegistroAsistencia.UI.Registros
             {
                 errorProvider.SetError(IDnumericUpDown, "No se puede eliminar un estudiante inexistente");
             }
-            asistencias.LlenarComboBox();
         }
 
         private void Limpiar()
@@ -142,7 +134,7 @@ namespace RegistroAsistencia.UI.Registros
             NombretextBox.Text = string.Empty;
         }
 
-        private void LlenaCampos(EstudiantesDetalle estudiante)
+        private void LlenaCampos(Estudiantes estudiante)
         {
             IDnumericUpDown.Value = estudiante.EstudianteID;
             NombretextBox.Text = estudiante.Nombre;

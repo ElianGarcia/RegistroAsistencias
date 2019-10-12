@@ -42,7 +42,7 @@ namespace RegistroAsistencia.BLL
 
             try
             {
-                var Anterior = db.Asistencia.Find(asistencia.AsistenciaID);
+                var Anterior = AsistenciasBLL.Buscar(asistencia.AsistenciaID);
                 foreach(var item in Anterior.Estudiante)
                 {
                     if (!asistencia.Estudiante.Exists(d => d.EstudianteID == item.EstudianteID))
@@ -96,7 +96,8 @@ namespace RegistroAsistencia.BLL
             try
             {
                 asistencia = db.Asistencia.Find(id);
-                asistencia.Estudiante.Count();
+                if(asistencia != null)
+                    asistencia.Estudiante.Count();
             }
             catch (Exception)
             {

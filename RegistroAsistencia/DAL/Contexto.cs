@@ -14,6 +14,8 @@ namespace RegistroAsistencia.DAL
         public DbSet<EstudiantesDetalle> Estudiante { get; set; }
         public DbSet<Asignaturas> Asignatura { get; set; }
 
+        public DbSet<Estudiantes> Estudiante1 { get; set; }
+
         public Contexto() : base("ConStr")
         {
 

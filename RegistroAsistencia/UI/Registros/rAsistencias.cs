@@ -12,9 +12,11 @@ namespace RegistroAsistencia.UI.Registros
         public List<EstudiantesDetalle> DetalleEstudiantes { get; set; }
         public GenericaBLL<EstudiantesDetalle> generica;
         private int Cantidad;
+
         public rAsistencias()
         {
             InitializeComponent();
+            LlenarComboBox();
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
             this.generica = new GenericaBLL<EstudiantesDetalle>();
         }
@@ -23,6 +25,7 @@ namespace RegistroAsistencia.UI.Registros
         {
             rEstudiantes registro = new rEstudiantes();
             registro.ShowDialog();
+            CargarGrid();
         }
 
         private void Guardarbutton_Click(object sender, EventArgs e)
@@ -138,6 +141,7 @@ namespace RegistroAsistencia.UI.Registros
         {
             rAsignaturas registroAsignaturas = new rAsignaturas();
             registroAsignaturas.ShowDialog();
+            CargarGrid();
         }
 
         private void Buscarbutton_Click(object sender, EventArgs e)
@@ -152,7 +156,6 @@ namespace RegistroAsistencia.UI.Registros
                 asistencia = AsistenciasBLL.Buscar(id);
             }
             
-
             if (asistencia != null)
             {
                 LlenaCampos(asistencia);
@@ -235,8 +238,8 @@ namespace RegistroAsistencia.UI.Registros
         public void LlenarComboBox()
         {
             EstudiantecomboBox.DataSource = null;
-            GenericaBLL<EstudiantesDetalle> genericaBLL = new GenericaBLL<EstudiantesDetalle>();
-            List<EstudiantesDetalle> lista = genericaBLL.GetList(p => true);
+            GenericaBLL<Estudiantes> genericaBLL = new GenericaBLL<Estudiantes>();
+            List<Estudiantes> lista = genericaBLL.GetList(p => true);
             EstudiantecomboBox.DataSource = lista;
             EstudiantecomboBox.DisplayMember = "Nombre";
             EstudiantecomboBox.ValueMember = "EstudianteID";
