@@ -11,6 +11,7 @@ namespace RegistroAsistencia.UI.Registros
     {
         public List<EstudiantesDetalle> DetalleEstudiantes { get; set; }
         public GenericaBLL<EstudiantesDetalle> generica;
+        public GenericaBLL<Estudiantes> GenericaEstudiantes;
         private int Cantidad;
 
         public rAsistencias()
@@ -19,6 +20,7 @@ namespace RegistroAsistencia.UI.Registros
             LlenarComboBox();
             this.DetalleEstudiantes = new List<EstudiantesDetalle>();
             this.generica = new GenericaBLL<EstudiantesDetalle>();
+            GenericaEstudiantes = new GenericaBLL<Estudiantes>();
         }
 
         private void RegistrarEstudiantebutton_Click(object sender, EventArgs e)
@@ -124,17 +126,20 @@ namespace RegistroAsistencia.UI.Registros
 
             Asistencias asistencia = new Asistencias();
 
-
-            if (AsistenciasBLL.Eliminar(id))
+            if(id > 0)
             {
-                MessageBox.Show("Eliminada correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (AsistenciasBLL.Eliminar(id))
+                {
+                    MessageBox.Show("Eliminada correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                Limpiar();
+                    Limpiar();
+                }
+                else
+                {
+                    errorProvider.SetError(IDnumericUpDown, "No se puede eliminar una asistencia inexistente");
+                }
             }
-            else
-            {
-                errorProvider.SetError(IDnumericUpDown, "No se puede eliminar una asistencia inexistente");
-            }
+            
         }
 
         private void AgregarAsignaturabutton_Click(object sender, EventArgs e)
@@ -192,27 +197,23 @@ namespace RegistroAsistencia.UI.Registros
 
         private void AgregarEstudiantebutton_Click(object sender, EventArgs e)
         {
-            
             if (dataGridView.DataSource != null)
             {
                 this.DetalleEstudiantes = (List<EstudiantesDetalle>)dataGridView.DataSource;
             }
 
-            EstudiantesDetalle ed = generica.Buscar(EstudiantecomboBox.SelectedIndex + 1);
-            if(ed != null)
-            {
-                this.DetalleEstudiantes.Add(new EstudiantesDetalle(
-                    estudianteID: EstudiantecomboBox.SelectedIndex,
-                    nombre: ed.Nombre,
-                    presente: AsistenciacheckBox.Checked
-                    )
-                );
-            }
+            string nombre = GenericaEstudiantes.Buscar(id: (int) EstudiantecomboBox.SelectedIndex + 1).Nombre;
+
+            this.DetalleEstudiantes.Add(new EstudiantesDetalle(
+                estudianteID: EstudiantecomboBox.SelectedIndex,
+                nombre: nombre,
+                presente: AsistenciacheckBox.Checked
+                )
+            );
             
             CargarGrid();
             Cantidad += 1;
             CantidadtextBox.Text = Cantidad.ToString();
-            EstudiantecomboBox.SelectedIndex = AsignaturaComboBox.SelectedIndex = -1;
         }
 
         private void CargarGrid()
